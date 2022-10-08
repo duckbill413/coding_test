@@ -9,7 +9,6 @@ n, m = map(int, input().split())
 start = int(input())
 
 graph = [[] for i in range(n + 1)]
-visited = [False] * (n + 1)
 dist = [INF] * (n + 1)
 
 # 모든 간선 정보 입력
