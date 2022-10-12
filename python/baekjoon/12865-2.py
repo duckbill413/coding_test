@@ -1,3 +1,4 @@
+# 12854. 평범한 배낭 / 람다
 m,r=lambda:map(int,input().split()),range
 n,k=m()
 d=[0]*(k+1)
