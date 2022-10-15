@@ -30,6 +30,8 @@ def solution(m, n, board):
 
     return answer
 
+'''
+# Test Case2
 board = ["TTTANT", "RRFACC", "RRRFCC", "TRRRAA", "TTMMMF", "TMMTTJ"]
 print(solution(6, 6, board))
-
+'''
