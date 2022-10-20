@@ -28,7 +28,8 @@ for i in range(n):
                 count += 1
         array[i][j] = str(count)
 
-min_point = max_point = [int(array[0][0]), 0, 0]
+min_point = [10, 0, 0] # 주위의 지뢰 개수, x 좌표, y 좌표
+max_point = [-1, 0, 0]
 
 # 지뢰가 가장 적은 곳과 많은 곳의 위치 탐색
 for i in range(n):
@@ -56,6 +57,7 @@ def bfs(start, end):
 
     while q:
         x, y, prev, turn = q.popleft()
+
         if (x, y) == end:
             break
 
@@ -67,7 +69,7 @@ def bfs(start, end):
                 continue
 
             turnn = turn if prev == i else turn + 1 # 회전 방향이 바뀔시 + 1
-            if turnn > 1: # 회전 횟수가 1을 넘기면 불가능
+            if turnn > 1:
                 continue
 
             if len(visited[nx][ny]) == 0: # 방문하지 않은 노드일 경우 방문
@@ -83,7 +85,6 @@ end = (min_point[1], min_point[2]) # 종료 좌표
 bfs(start, end)
 root1 = visited[end[0]][end[1]] # 경로
 visited = [[[] for i in range(n)] for j in range(n)]
-
 step1 = 0 # 첫 시도시 지뢰 개수
 for r in root1[1:-1]:
     x, y = r
