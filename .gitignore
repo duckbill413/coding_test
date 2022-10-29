@@ -128,3 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 python/nexon2022/
+python/2022_gausslabs/1.py
+python/2022_gausslabs/2.py
+python/2022_gausslabs/3.py
+python/2022_gausslabs/4.py
+python/2022_gausslabs/5.py
+python/2022_gausslabs/5-2.py
