@@ -9,7 +9,7 @@ def solution(board, moves):
             if board[i][j] != 0:
                 sboard[j + 1].append(board[i][j])
 
-    basket = [0]
+    basket = [0] # 0은 에러 방지를 위해서 넣은 것
     for move in moves:
         if len(sboard[move]) == 0:
             continue
