@@ -4,7 +4,7 @@ def solution(N, stages):
     answer = []
     peoples = len(stages)
     for i in range(1, N+1):
-        count = stages.count(i)
+        count = stages.check(i)
 
         if peoples == 0:
             fail = 0
