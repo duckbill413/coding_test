@@ -1,5 +1,5 @@
 # Coding_Test
-training coding test
+코딩테스트를 준비하는 공간 입니다.
 
 - 누적합
 - 구현
