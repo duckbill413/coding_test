@@ -1,5 +1,9 @@
 # 1707 이분 그래프 판별하기
 # 이분 그래프는 사이클이 형성 되지 않을때 가능하다.
+import sys
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
+
 K = int(input())
 
 
