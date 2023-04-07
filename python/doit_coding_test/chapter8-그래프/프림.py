@@ -1,7 +1,11 @@
 # 프림 알고리즘
+# 1197 최소 신장 트리 구하기
+
 import heapq
 import sys
+
 input = sys.stdin.readline
+
 
 def prim(graph, start):
     visited = set([start])
@@ -21,9 +25,8 @@ def prim(graph, start):
     print(result)
 
 
-
 V, E = map(int, input().split())
-graph = [[] for _ in range(V+1)]
+graph = [[] for _ in range(V + 1)]
 
 for _ in range(E):
     s, e, w = map(int, input().split())
