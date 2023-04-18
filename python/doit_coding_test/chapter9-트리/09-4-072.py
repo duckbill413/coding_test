@@ -9,7 +9,7 @@ N, M = map(int, input().split())
 length = 1
 treeHeight = 0
 while length < N:
-    length *= 2
+    length <<= 1
     treeHeight += 1
 
 treeSize = pow(2, treeHeight + 1)
