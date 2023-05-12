@@ -13,4 +13,4 @@ for i in range(2, N+1):
     dp[0][i] = dp[0][i-1] + dp[1][i-1]
     dp[1][i] = dp[0][i-1]
 
-print(dp[0][i] + dp[1][i])
+print(dp[0][N] + dp[1][N])
