@@ -1,6 +1,7 @@
 # 21736 헌내기는 친구가 필요해
 import sys
-sys.setrecursionlimit(10**6)
+
+sys.setrecursionlimit(10 ** 6)
 
 input = sys.stdin.readline
 
@@ -14,6 +15,8 @@ dy = [0, 0, -1, 1]
 
 visited = [[False] * M for _ in range(N)]
 answer = 0
+
+
 def dfs(start):
     global answer
     visited[start[0]][start[1]] = True
@@ -28,6 +31,7 @@ def dfs(start):
         if nx >= 0 and nx < N and ny >= 0 and ny < M:
             if not visited[nx][ny] and A[nx][ny] != 'X':
                 dfs((nx, ny))
+
 
 for i in range(N):
     for j in range(M):
