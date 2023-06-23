@@ -31,7 +31,6 @@ for _ in range(N):
     computers.append(list(input()))
 
 edges = []
-q   
 total = 0
 for i in range(N):
     for j in range(N):
