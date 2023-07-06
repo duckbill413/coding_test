@@ -3,37 +3,39 @@ package swea;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class SWEA1868 {
     public static final int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
     public static final int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
     public static int N;
     public static char[][] board;
-    public static int[][] visited;
+    public static boolean[][] visited;
 
+    public static boolean checkZero(int x, int y){
+        for (int i = 0; i < 8; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (nx < 0 || nx >= N || ny < 0 || ny >= N){
+                continue;
+            }
+            if (board[nx][ny] == '*')
+                return false;
+        }
+        return true;
+    }
     public static void dfs(int x, int y) {
-        visited[x][y] = 0;
+        visited[x][y] = true;
         for (int i = 0; i < 8; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
 
             if (nx < 0 || nx >= N || ny < 0 || ny >= N)
                 continue;
-            if (board[nx][ny] == '*')
-                visited[x][y]++;
-        }
-
-        if (visited[x][y] == 0) {
-            for (int i = 0; i < 8; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-
-                if (nx < 0 || nx >= N || ny < 0 || ny >= N)
-                    continue;
-                if (visited[nx][ny] == -1) {
-                    dfs(nx, ny);
-                }
+            if (!visited[nx][ny] && board[nx][ny] == '.' && checkZero(nx, ny)){
+                dfs(nx, ny);
+            } else {
+                visited[nx][ny] = true;
             }
         }
     }
@@ -46,12 +48,7 @@ public class SWEA1868 {
             N = Integer.parseInt(br.readLine());
 
             board = new char[N][N];
-            visited = new int[N][N];
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
-                    visited[i][j] = -1;
-                }
-            }
+            visited = new boolean[N][N];
             for (int i = 0; i < N; i++) {
                 String line = br.readLine();
                 char[] charArray = line.toCharArray();
@@ -61,8 +58,15 @@ public class SWEA1868 {
             int answer = 0;
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
-                    if (board[i][j] == '.' && visited[i][j] == -1) {
+                    if (!visited[i][j] && board[i][j] == '.' && checkZero(i, j)){
                         dfs(i, j);
+                        answer++;
+                    }
+                }
+            }
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j <N; j++) {
+                    if (!visited[i][j] && board[i][j] == '.'){
                         answer++;
                     }
                 }
