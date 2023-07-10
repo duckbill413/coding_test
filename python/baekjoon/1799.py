@@ -6,11 +6,11 @@ input = sys.stdin.readline
 
 
 def isBlack(x, y):
-    return (x % 2 == 0 and y % 2 == 0) or (x % 2 == 1 or y % 2 == 1)
+    return (x % 2 == 0 and y % 2 == 0) or (x % 2 == 1 and y % 2 == 1)
 
 
 N = int(input())
-board = [list(map(int, input().split().strip())) for _ in range(N)]
+board = [list(map(int, input().split())) for _ in range(N)]
 
 right = [False] * (2 * N - 1)
 left = [False] * (2 * N - 1)
@@ -21,7 +21,7 @@ for i in range(N):
     for j in range(N):
         if board[i][j] == 1 and isBlack(i, j):
             black.append((i, j))
-        elif board[i][j] == 1:
+        elif board[i][j] == 1 and not isBlack(i, j):
             white.append((i, j))
 
 
@@ -42,7 +42,7 @@ def solution(color, index, count):
         right[x + y] = 1
         left[x - y + N - 1] = 1
         solution(color, index + 1, count + 1)
-        right[x + y] = 1
+        right[x + y] = 0
         left[x - y + N - 1] = 0
         solution(color, index + 1, count)
 
