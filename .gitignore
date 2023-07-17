@@ -158,6 +158,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+python/2018_kakao_blind
+python/2022_kakao_mobility
+python/2023_naver_pr
 python/nexon2022/
 python/2022_gausslabs/1.py
 python/2022_gausslabs/2.py
