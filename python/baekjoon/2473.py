@@ -11,23 +11,17 @@ result = ()
 
 A.sort()
 
-while len(A) >= 3:
-    picked = A.pop()
-    small = int(1e10)
-    r = ()
-    flag = False
+for i in range(len(A) - 2):
+    picked = A[i]
 
-    start, end = 0, len(A) - 1
+    start, end = i+1, len(A) - 1
 
     while start < end:
         sum = picked + A[start] + A[end]
 
-        if small > abs(sum):
-            small = abs(sum)
-            r = (picked, A[start], A[end])
-            flag = True
-
-
+        if answer > abs(sum):
+            answer = abs(sum)
+            result = (picked, A[start], A[end])
 
         if sum < 0:
             start += 1
