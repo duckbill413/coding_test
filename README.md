@@ -17,7 +17,8 @@
 - 이분탐색
 - DP
 - 최단거리(다익스트라, 플로이드 워셜)
-- 펜윅트리
+- 펜윅트리 (FenWick Tree = Binary Indexed Tree)
+- MST (최소 신장 트리)
 
 ### 참고자료
 - 백준
