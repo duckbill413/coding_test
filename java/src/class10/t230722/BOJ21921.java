@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
-public class B21921 {
+public class BOJ21921 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());

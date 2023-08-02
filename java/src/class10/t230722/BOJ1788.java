@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class B1788 {
+public class BOJ1788 {
     private static int N;
     private static final int SIZE = 2_000_001;
     private static final int MOD = 1_000_000_000;

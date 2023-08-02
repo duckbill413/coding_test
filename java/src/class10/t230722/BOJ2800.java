@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class B2800 {
+public class BOJ2800 {
     static char[] array;
     static boolean[] checked;
     static int[] pair;

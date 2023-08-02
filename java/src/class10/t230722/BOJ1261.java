@@ -8,7 +8,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
-public class B1261 {
+public class BOJ1261 {
     static int N, M;
     static int[][] board;
     static int[][] visited;
