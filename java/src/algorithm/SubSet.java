@@ -1,7 +1,7 @@
 package algorithm;
 
 // 부분 집합 (Power Set)
-public class PowerSet {
+public class SubSet {
     private static final int[] arr = {1, 2, 3};
     private static int N;
 
