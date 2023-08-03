@@ -1,4 +1,4 @@
-package class10.t230722;
+package ssafy10;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,32 +51,6 @@ public class BOJ1261 {
         }
     }
 
-    public static void dfs(int x, int y) {
-        if (x == M - 1 && y == N - 1) {
-            answer = Math.min(answer, visited[x][y]);
-            return;
-        }
-        for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-
-            if (!inRange(nx, ny))
-                continue;
-
-            if (visited[nx][ny] == -1) {
-                if (board[nx][ny] == 0) {
-                    visited[nx][ny] = visited[x][y];
-                    dfs(nx, ny);
-                    visited[nx][ny] = -1;
-                } else if (board[nx][ny] == 1) {
-                    visited[nx][ny] = visited[x][y] + 1;
-                    dfs(nx, ny);
-                    visited[nx][ny] = -1;
-                }
-            }
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -96,7 +70,6 @@ public class BOJ1261 {
             }
         }
         visited[0][0] = 0;
-//        dfs(0, 0);
         bfs();
 
         System.out.println(answer);

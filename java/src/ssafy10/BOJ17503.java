@@ -1,4 +1,4 @@
-package class10.t230722;
+package ssafy10;
 
 import java.io.BufferedReader;
 import java.io.IOException;
