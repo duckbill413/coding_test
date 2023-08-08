@@ -1,4 +1,4 @@
-package ssafy10;
+package baekjoon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
+// 1261 알고스팟
 public class BOJ1261 {
     static int N, M;
     static int[][] board;
