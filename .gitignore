@@ -397,3 +397,6 @@ python/softeer/1.py
 java/java.iml
 java/.idea/
 python/ignore/
+python/.idea/
+java/.idea/
+java/ignore/
