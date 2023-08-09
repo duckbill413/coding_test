@@ -1,6 +1,7 @@
 # 2042 구간 합 구하기 3
 # 세그먼트 트리 - 구간 합
 import sys
+
 input = sys.stdin.readline
 
 N, M, K = map(int, input().split())
@@ -61,3 +62,16 @@ for _ in range(M + K):
         s = s + leftNodeStartIndex - 1
         e = e + leftNodeStartIndex - 1
         print(getSum(s, e))
+
+'''
+5 2 2
+1
+2
+3
+4
+5
+1 3 6
+2 2 5
+1 5 2
+2 3 5
+'''
