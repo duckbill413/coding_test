@@ -2,14 +2,13 @@ package swea;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
-// 5215 햄버거 다이어트 (메모리: 20,832 kb, 시간: 1291ms)
-// 조합을 이용한 풀이
-public class SWEA5215 {
+// 5215 햄버거 다이어트
+// DP를 이용한 풀이 (메모리: 20,064 kb, 시간: 137ms)
+public class SWEA5215S2 {
     private static int N, L;
     private static Ingredient[] ingredients;
-    private static boolean[] exist;
     private static int answer;
 
     public static void main(String[] args) throws Exception {
@@ -32,37 +31,16 @@ public class SWEA5215 {
             }
 
             answer = 0;
-            exist = new boolean[N];
-            for (int count = 1; count <= N; count++) {
-                combination(0, 0, count);
+            int[] taste = new int[L + 1];
+            for (int n = 0; n < N; n++) {
+                for (int l = L; l >= ingredients[n].kal; l--) {
+                    taste[l] = Math.max(taste[l], taste[l - ingredients[n].kal] + ingredients[n].taste);
+                    answer = Math.max(answer, taste[l]);
+                }
             }
             sb.append("#").append(test_case).append(" ").append(answer).append("\n");
         }
         System.out.println(sb);
-    }
-
-    private static void combination(int start, int depth, int size) {
-        if (depth == size) {
-            int taste, kal;
-            taste = kal = 0;
-            for (int i = 0; i < N; i++) {
-                if (exist[i]) {
-                    taste += ingredients[i].taste;
-                    kal += ingredients[i].kal;
-                    if (kal > L) {
-                        return;
-                    }
-                }
-            }
-            answer = Math.max(taste, answer);
-            return;
-        }
-
-        for (int i = start; i < N; i++) {
-            exist[i] = true;
-            combination(i + 1, depth + 1, size);
-            exist[i] = false;
-        }
     }
 
     private static class Ingredient {
