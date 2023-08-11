@@ -75,7 +75,7 @@ public class SWEA5215S4 {
         return true;
     }
 
-    private static void swap(int @NotNull [] p, int a, int b) {
+    private static void swap(int [] p, int a, int b) {
         int tmp = p[a];
         p[a] = p[b];
         p[b] = tmp;
