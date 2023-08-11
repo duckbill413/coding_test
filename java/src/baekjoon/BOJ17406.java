@@ -92,7 +92,7 @@ public class BOJ17406 {
         int N = arr.length;
         int i = N - 1;
 
-        while (i > 0 && arr[i - 1] > arr[i]) --i;
+        while (i > 0 && arr[i - 1] >= arr[i]) --i;
 
         if (i == 0) return false;
 
