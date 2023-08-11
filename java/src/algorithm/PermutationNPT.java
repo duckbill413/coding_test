@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * 3. 뒤 위치 값 (i-1, j) 교환
  * 4. 꼭대기위치(i)부터 맨 뒤까지 오름차순 정렬
  */
-public class NextPermutation {
+public class PermutationNPT {
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -40,7 +40,7 @@ public class NextPermutation {
     private static boolean permutation(int[] p) {
         int N = p.length;
         int i = N - 1;
-        while (i > 0 && p[i - 1] > p[i]) --i;
+        while (i > 0 && p[i - 1] >= p[i]) --i;
 
         if (i == 0) return false; // 다음 순열은 없음 (가장 큰 순열의 형태)
 
