@@ -16,7 +16,7 @@ public class BOJ3040 {
         int total = 0;
         for (int i = 0; i < NUM; i++) {
             A[i] = O[i] = Integer.parseInt(br.readLine());
-            total += A[`i];
+            total += A[i];
         }
 
         Arrays.sort(A);
