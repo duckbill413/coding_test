@@ -30,15 +30,13 @@ public class SWEA5215S2 {
                 ingredients[i] = new Ingredient(taste, kal);
             }
 
-            answer = 0;
             int[] taste = new int[L + 1];
             for (int n = 0; n < N; n++) {
                 for (int l = L; l >= ingredients[n].kal; l--) {
                     taste[l] = Math.max(taste[l], taste[l - ingredients[n].kal] + ingredients[n].taste);
-                    answer = Math.max(answer, taste[l]);
                 }
             }
-            sb.append("#").append(test_case).append(" ").append(answer).append("\n");
+            sb.append("#").append(test_case).append(" ").append(taste[L]).append("\n");
         }
         System.out.println(sb);
     }
