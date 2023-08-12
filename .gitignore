@@ -399,4 +399,4 @@ java/.idea/
 python/ignore/
 python/.idea/
 java/.idea/
-java/ignore/
+java/src/ignore/
