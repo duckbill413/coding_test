@@ -12,6 +12,7 @@ public class SWEA1861 {
     private static int[][] board;
     private static int id;
     private static int answer;
+    private static int count;
     private static boolean[][] visited;
 
     public static void main(String[] args) throws Exception {
@@ -33,15 +34,13 @@ public class SWEA1861 {
             }
             id = Integer.MAX_VALUE;
             answer = 0;
+            visited = new boolean[N][N];
+
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
-                    visited = new boolean[N][N];
-                    int result = dfs(i, j, 1);
-                    if (answer <= result) {
-                        if (answer == result)
-                            id = Math.min(id, board[i][j]);
-                        else id = board[i][j];
-                        answer = result;
+                    if (!visited[i][j]) {
+                        count = 1;
+                        dfs(i, j, board[i][j]);
                     }
                 }
             }
@@ -52,21 +51,29 @@ public class SWEA1861 {
         System.out.println(sb);
     }
 
-    private static int dfs(int x, int y, int count) {
+    private static void dfs(int x, int y, int start) {
         visited[x][y] = true;
 
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
 
-            if (!inRange(nx, ny)) {
+            if (!inRange(nx, ny) || visited[nx][ny]) {
                 continue;
             }
-            if (!visited[nx][ny] && board[nx][ny] == board[x][y] + 1) {
-                count = Math.max(count, dfs(nx, ny, count + 1));
+
+            if (board[nx][ny] == board[x][y] + 1 ||
+                    board[nx][ny] == board[x][y] - 1) {
+                start = Math.min(start, board[nx][ny]); // 시작점으로는 id가 작은것이 된다.
+                count += 1;
+                dfs(nx, ny, start);
             }
         }
-        return count;
+
+        if (count > answer || (count == answer && start < id)) {
+            answer = count;
+            id = start;
+        }
     }
 
     private static boolean inRange(int x, int y) {
