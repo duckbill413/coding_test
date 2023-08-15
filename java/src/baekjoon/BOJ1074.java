@@ -1,12 +1,15 @@
 package baekjoon;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 // 1074 Z
+// 분할정복, 재귀
 public class BOJ1074 {
     private static int N, R, C;
+    private static int answer;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,34 +18,24 @@ public class BOJ1074 {
         R = Integer.parseInt(st.nextToken());
         C = Integer.parseInt(st.nextToken());
 
+        answer = -1;
         int size = (int) Math.pow(2, N);
-        System.out.println(solution(new Point(0, 0), new Point(size - 1, size - 1), N, size * size));
+        solution(0, 0, 0, size);
+        System.out.println(answer);
     }
 
-    private static int solution(Point start, Point end, int n, int size) {
-        int x = (start.x + end.x) / 2;
-        int y = (start.y + end.y) / 2;
-        int s = size / 4;
-
-        if (R < x && C < y) {
-            return solution(start, new Point(x - 1, y - 1), n - 1, s);
-        } else if (R <= x && C > y) {
-            return solution(new Point(start.x, y + 1), new Point(x, end.y), n - 1, s * 2);
-        } else if (R > x && C <= y) {
-            return solution(new Point(x + 1, start.y), new Point(end.x, y), n - 1, s * 3);
-        } else if (R > x && C > y) {
-            return solution(new Point(x + 1, y + 1), end, n - 1, s * 4);
-        } else {
-            return size - 1;
+    private static void solution(int x, int y, int cnt, int size) {
+        if (x == R && y == C) {
+            answer = cnt;
+            return;
         }
-    }
 
-    private static class Point {
-        int x, y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
+        if (x <= R && R < x + size && y <= C && C < y + size) {
+            int d = size / 2;
+            solution(x, y, cnt, d);
+            solution(x, y + d, cnt + d * d, d);
+            solution(x + d, y, cnt + 2 * d * d, d);
+            solution(x + d, y + d, cnt + 3 * d * d, d);
         }
     }
 }
