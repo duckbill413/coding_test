@@ -46,7 +46,7 @@ public class BOJ6987 {
         if (team == 6) {
             boolean isOk = true;
             for (int i = 0; i < 6; i++) {
-                if (scores[i][2] != 0) {
+                if (scores[i][2] != 0 || scores[i][1] != 0) {
                     isOk = false;
                     break;
                 }
@@ -57,7 +57,9 @@ public class BOJ6987 {
 //        경우 조합 백트레킹
         int[] p = new int[6];
         int cnt = 0;
-        while (++cnt <= scores[team][0]) p[6 - cnt] = 1;
+        while (++cnt <= scores[team][1]) p[6 - cnt] = 2;
+        cnt = 0;
+        while (++cnt <= scores[team][0]) p[6 - scores[team][1] - cnt] = 1;
 
         do {
             // 자기 자신이 선택될 경우는 제외
@@ -65,24 +67,35 @@ public class BOJ6987 {
                 continue;
             }
 
-            cnt = 0;
+            int win = 0;
+            int draw = 0;
             for (int i = 0; i < 6; i++) {
                 if (p[i] == 0) continue;
-                if (scores[i][2] > 0) {
-                    cnt++;
+                if (p[i] == 1 && scores[i][2] > 0) {
+                    win++;
+                } else if (p[i] == 2 && scores[i][1] > 0) {
+                    draw++;
                 }
             }
-            if (cnt == scores[team][0]) {
+            if (win == scores[team][0] && draw == scores[team][1]) {
                 for (int i = 0; i < 6; i++) {
                     if (p[i] == 0) continue;
-                    scores[i][2] -= 1;
+                    if (p[i] == 1) scores[i][2] -= 1;
+                    else if (p[i] == 2) {
+                        scores[i][1] -= 1;
+                        scores[team][1] -= 1;
+                    }
                 }
 
-                solution(team + 1, scores);
+                if (!result) solution(team + 1, scores);
 
                 for (int i = 0; i < 6; i++) {
                     if (p[i] == 0) continue;
-                    scores[i][2] += 1;
+                    if (p[i] == 1) scores[i][2] += 1;
+                    else if (p[i] == 2) {
+                        scores[i][1] += 1;
+                        scores[team][1] += 1;
+                    }
                 }
             }
         } while (permutation(p));
