@@ -5,122 +5,90 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+// 6987 월드컵
 public class BOJ6987 {
-    private static boolean result;
+    private static final int TEAM_SIZE = 6;
+    private static final int ROUND = 4;
+    private static final int MATCH_COUNT = 15;
+    private static boolean possible;
+    private static int[][] matches;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        int[][][] scores = new int[4][6][3];
-        for (int k = 0; k < 4; k++) {
+        int[][][] scores = new int[ROUND][TEAM_SIZE][3];
+        for (int k = 0; k < ROUND; k++) {
             st = new StringTokenizer(br.readLine());
             for (int i = 0; i < 18; i++) {
                 scores[k][i / 3][i % 3] = Integer.parseInt(st.nextToken());
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 4; i++) {
-            result = false;
-
-            boolean flag = true;
-            for (int j = 0; j < 6; j++) {
-                if (Arrays.stream(scores[i][j]).sum() != 5) {
-                    flag = false;
-                    sb.append(0).append(" ");
-                    break;
-                }
+        matches = new int[MATCH_COUNT][2]; // 최대 경기 가능한 경우
+        int num = 0;
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            for (int j = i + 1; j < TEAM_SIZE; j++) {
+                matches[num][0] = i;
+                matches[num][1] = j;
+                num++;
             }
-            if (!flag) continue;
+        }
 
-            solution(0, scores[i]);
-            if (result) sb.append(1).append(" ");
+        StringBuilder sb = new StringBuilder();
+        for (int k = 0; k < ROUND; k++) {
+            if (solution(scores[k])) sb.append(1).append(" ");
             else sb.append(0).append(" ");
         }
         System.out.println(sb);
     }
 
-    private static void solution(int team, int[][] scores) {
-        if (result) return;
-        if (team == 6) {
-            boolean isOk = true;
-            for (int i = 0; i < 6; i++) {
-                if (scores[i][2] != 0 || scores[i][1] != 0) {
-                    isOk = false;
-                    break;
-                }
+    private static boolean solution(int[][] scores) {
+        // 한 팀당 5번 경기하는지 검사
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            if (Arrays.stream(scores[i]).sum() != 5) {
+                return false;
             }
-            if (isOk) result = true;
+        }
+
+        possible = false;
+        play(0, scores);
+        return possible;
+    }
+
+    private static void play(int match, int[][] scores) {
+        if (possible) return; // 가능한 경우 종료
+        if (match == MATCH_COUNT) { // 모든 게임 수행 성공 시 종료
+            possible = true;
             return;
         }
-//        경우 조합 백트레킹
-        int[] p = new int[6];
-        int cnt = 0;
-        while (++cnt <= scores[team][1]) p[6 - cnt] = 2;
-        cnt = 0;
-        while (++cnt <= scores[team][0]) p[6 - scores[team][1] - cnt] = 1;
 
-        do {
-            // 자기 자신이 선택될 경우는 제외
-            if (p[team] == 1) {
-                continue;
-            }
+        int my = matches[match][0];
+        int enemy = matches[match][1];
 
-            int win = 0;
-            int draw = 0;
-            for (int i = 0; i < 6; i++) {
-                if (p[i] == 0) continue;
-                if (p[i] == 1 && scores[i][2] > 0) {
-                    win++;
-                } else if (p[i] == 2 && scores[i][1] > 0) {
-                    draw++;
-                }
-            }
-            if (win == scores[team][0] && draw == scores[team][1]) {
-                for (int i = 0; i < 6; i++) {
-                    if (p[i] == 0) continue;
-                    if (p[i] == 1) scores[i][2] -= 1;
-                    else if (p[i] == 2) {
-                        scores[i][1] -= 1;
-                        scores[team][1] -= 1;
-                    }
-                }
-
-                if (!result) solution(team + 1, scores);
-
-                for (int i = 0; i < 6; i++) {
-                    if (p[i] == 0) continue;
-                    if (p[i] == 1) scores[i][2] += 1;
-                    else if (p[i] == 2) {
-                        scores[i][1] += 1;
-                        scores[team][1] += 1;
-                    }
-                }
-            }
-        } while (permutation(p));
-    }
-
-    private static boolean permutation(int[] p) {
-        int N = p.length;
-        int i = N - 1;
-        while (i > 0 && p[i - 1] >= p[i]) --i;
-
-        if (i == 0) return false; // 다음 순열은 없음 (가장 큰 순열의 형태)
-
-        int j = N - 1;
-        while (p[i - 1] >= p[j]) --j;
-
-        swap(p, i - 1, j);
-
-        int k = N - 1;
-        while (i < k) swap(p, i++, k--);
-        return true;
-    }
-
-    private static void swap(int[] p, int a, int b) {
-        int tmp = p[a];
-        p[a] = p[b];
-        p[b] = tmp;
+        // 승 -> 패
+        if (scores[my][0] > 0 && scores[enemy][2] > 0) {
+            scores[my][0] -= 1;
+            scores[enemy][2] -= 1;
+            play(match + 1, scores);
+            scores[my][0] += 1;
+            scores[enemy][2] += 1;
+        }
+        // 패 -> 승
+        if (scores[my][2] > 0 && scores[enemy][0] > 0) {
+            scores[my][2] -= 1;
+            scores[enemy][0] -= 1;
+            play(match + 1, scores);
+            scores[my][2] += 1;
+            scores[enemy][0] += 1;
+        }
+        // 무승부
+        if (scores[my][1] > 0 && scores[enemy][1] > 0) {
+            scores[my][1] -= 1;
+            scores[enemy][1] -= 1;
+            play(match + 1, scores);
+            scores[my][1] += 1;
+            scores[enemy][1] += 1;
+        }
     }
 }
