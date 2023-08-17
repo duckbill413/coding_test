@@ -7,15 +7,14 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
-// TODO: 테케 확인 필요
 public class SWEA5644 {
     private static final int[] dx = {0, 0, 1, 0, -1};
     private static final int[] dy = {0, -1, 0, 1, 0};
     private static int M, N;
     private static int[] A, B;
-    private static int a, b;
     private static int[][] location;
     private static List<Battery> batteries;
+    private static int answer;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -44,8 +43,8 @@ public class SWEA5644 {
             location = new int[2][];
             location[0] = new int[]{1, 1};
             location[1] = new int[]{10, 10};
-            a = 0; // A 충전량
-            b = 0; // B 충전량
+
+            answer = 0;
 
             List<Battery> chargeA = charge(location[0][0], location[0][1]);
             List<Battery> chargeB = charge(location[1][0], location[1][1]);
@@ -65,44 +64,35 @@ public class SWEA5644 {
                 solution(chargeA, chargeB);
             }
 
-            sb.append("#").append(test_case).append(" ").append(a + b).append("\n");
+            sb.append("#").append(test_case).append(" ").append(answer).append("\n");
         }
         System.out.println(sb);
     }
 
     private static void solution(List<Battery> chargeA, List<Battery> chargeB) {
-
+        // A, B 둘다 후보가 없는 경우
         if (chargeA.isEmpty() && chargeB.isEmpty()) {
-            System.out.println("0 0");
             return;
         }
-
         if (chargeA.isEmpty()) {
-            b += chargeB.stream().mapToInt(value -> value.p).max().getAsInt();
-//            System.out.println("0 " + chargeB.stream().mapToInt(value -> value.p).max().getAsInt());
+            answer += chargeB.stream().mapToInt(value -> value.p).max().getAsInt();
             return;
         }
         if (chargeB.isEmpty()) {
-            a += chargeA.stream().mapToInt(value -> value.p).max().getAsInt();
-//            System.out.println(chargeA.stream().mapToInt(value -> value.p).max().getAsInt() + " 0");
+            answer += chargeA.stream().mapToInt(value -> value.p).max().getAsInt();
             return;
         }
-        int maxA = 0;
-        int maxB = 0;
+        int max = 0;
         for (Battery aBattery : chargeA) {
             for (Battery bBattery : chargeB) {
                 if (aBattery == bBattery) {
-                    maxA = Math.max(maxA, aBattery.p / 2);
-                    maxB = Math.max(maxB, bBattery.p / 2);
+                    max = Math.max(max, aBattery.p);
                 } else {
-                    maxA = Math.max(maxA, aBattery.p);
-                    maxB = Math.max(maxB, bBattery.p);
+                    max = Math.max(max, aBattery.p + bBattery.p);
                 }
             }
         }
-        a += maxA;
-        b += maxB;
-        System.out.println(maxA + " " + maxB);
+        answer += max;
     }
 
 
