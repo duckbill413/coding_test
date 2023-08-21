@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
+// 2252 줄세우기 (메모리: 47296KB, 시간: 456ms)
 public class BOJ2252 {
     private static int N, M;
     private static int[] dist;
@@ -37,7 +38,7 @@ public class BOJ2252 {
     }
 
     private static void topology() {
-        Queue<Integer> q = new LinkedList<>();
+        Queue<Integer> q = new ArrayDeque<>();
         for (int i = 1; i <= N; i++) {
             if (dist[i] == 0) q.add(i);
         }
