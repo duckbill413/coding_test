@@ -2,10 +2,12 @@ package baekjoon;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
+// 1697 숨바꼭질 (메모리: 13952KB, 시간: 108ms)
 public class BOJ1697 {
-    private static int SIZE = 100001;
     private static int N, M;
 
     public static void main(String[] args) throws Exception {
@@ -14,30 +16,29 @@ public class BOJ1697 {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
+
         System.out.println(bfs(N));
     }
 
     private static int bfs(int start) {
         Queue<Integer> q = new ArrayDeque<>();
-        int[] time = new int[SIZE];
-        Arrays.fill(time, Integer.MAX_VALUE);
+        int[] time = new int[Math.max(N + 1, M + 2)];
         q.add(start);
-        time[start] = 0;
 
         while (!q.isEmpty()) {
             int cur = q.poll();
 
-            if (cur == M) return time[M];
+            if (cur == M) break;
 
-            if (cur < M && time[cur] + 1 < time[cur + 1]) {
+            if (cur < M && time[cur + 1] == 0) {
                 time[cur + 1] = time[cur] + 1;
                 q.add(cur + 1);
             }
-            if (cur - 1 >= 0 && time[cur] + 1 < time[cur - 1]) {
+            if (cur - 1 >= 0 && time[cur - 1] == 0) {
                 time[cur - 1] = time[cur] + 1;
                 q.add(cur - 1);
             }
-            if (cur * 2 <= M + 1 && time[cur] + 1 < time[cur * 2]) {
+            if (cur * 2 <= M + 1 && time[cur * 2] == 0) {
                 time[cur * 2] = time[cur] + 1;
                 q.add(cur * 2);
             }
