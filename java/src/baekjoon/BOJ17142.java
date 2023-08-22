@@ -61,9 +61,9 @@ public class BOJ17142 {
         System.out.println(answer);
     }
 
-    private static int bfs(Queue<Virus> q, int[][] B) {
-
-    }
+//    private static int bfs(Queue<Virus> q, int[][] B) {
+//
+//    }
 
     private static boolean permutation(int[] p) {
         int N = virus.size();
