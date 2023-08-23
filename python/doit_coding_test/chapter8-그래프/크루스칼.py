@@ -1,6 +1,6 @@
 # 크루스칼
 # 1197 최소 신장 트리 구하기
-
+# ElogE
 import sys
 
 input = sys.stdin.readline
