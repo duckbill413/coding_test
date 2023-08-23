@@ -2,6 +2,8 @@ package baekjoon;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 // 9251 LCS
 public class BOJ9251 {
@@ -17,11 +19,10 @@ public class BOJ9251 {
 
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
-                if (A.charAt(i - 1) == B.charAt(j - 1)) dp[i][j] = 1;
-                dp[i][j] = Math.min(dp[i - 1][j - 1] + 1, Math.max(dp[i - 1][j], dp[i][j - 1]) + dp[i][j]);
+                if (A.charAt(i - 1) == B.charAt(j - 1)) dp[i][j] = dp[i - 1][j - 1] + 1;
+                else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
-
         System.out.println(dp[N][M]);
     }
 }
