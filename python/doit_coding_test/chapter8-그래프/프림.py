@@ -1,6 +1,6 @@
 # 프림 알고리즘
 # 1197 최소 신장 트리 구하기
-
+# ElogV
 import heapq
 import sys
 
