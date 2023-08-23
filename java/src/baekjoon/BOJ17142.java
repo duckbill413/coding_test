@@ -12,58 +12,86 @@ import java.util.*;
  * 5. 활성 바이러스가 비활성 바이러스 칸으로 가면 비활성 바이러스가 활성으로 변한다.
  * 6. 0: 빈칸, 1: 벽, 2: 바이러스
  */
+// 17142 연구소3
 public class BOJ17142 {
     private static final int[] dx = {-1, 1, 0, 0};
     private static final int[] dy = {0, 0, -1, 1};
     private static int N, M;
-    private static int[][] A;
     private static List<Virus> virus;
-    private static int answer;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        A = new int[N][N];
+        int[][] A = new int[N][N];
 
         virus = new ArrayList<>();
+        int empty = 0; // 빈칸의 개수
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
                 A[i][j] = Integer.parseInt(st.nextToken());
                 if (A[i][j] == 2) {
                     virus.add(new Virus(i, j));
+                } else if (A[i][j] == 0) {
+                    empty += 1;
                 }
             }
         }
 
-        int[] p = new int[N];
+        int[] p = new int[virus.size()];
         int cnt = 0;
-        while (++cnt <= M) p[N - cnt] = 1;
+        while (++cnt <= M) p[virus.size() - cnt] = 1;
 
-        answer = Integer.MAX_VALUE;
+        int answer = Integer.MAX_VALUE;
         do {
             int[][] B = new int[N][N];
             for (int i = 0; i < N; i++) {
                 B[i] = Arrays.copyOf(A[i], N);
             }
-            for (int i = 0; i < N; i++) {
+
+            Queue<Virus> q = new ArrayDeque<>();
+            for (int i = 0; i < virus.size(); i++) {
                 if (p[i] == 0) continue;
-                Queue<Virus> q = new ArrayDeque<>();
+
                 q.add(virus.get(i));
                 B[virus.get(i).x][virus.get(i).y] = 3;
-                int time = bfs(q, B);
-                answer = Math.min(answer, time);
             }
+
+            answer = Math.min(answer, bfs(q, empty, B));
         } while (permutation(p));
 
-        System.out.println(answer);
+        if (answer == Integer.MAX_VALUE) System.out.println(-1);
+        else System.out.println(answer);
     }
 
-//    private static int bfs(Queue<Virus> q, int[][] B) {
-//
-//    }
+    private static int bfs(Queue<Virus> q, int empty, int[][] B) {
+        if (empty == 0) return 0;
+        int time = 0;
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Virus cur = q.poll();
+
+                // 빈칸에 바이러스 전파
+                for (int j = 0; j < 4; j++) {
+                    int nx = cur.x + dx[j];
+                    int ny = cur.y + dy[j];
+
+                    if (inRange(nx, ny) && B[nx][ny] != 1 && B[nx][ny] != 3) {
+                        if (B[nx][ny] == 0) empty -= 1;
+                        B[nx][ny] = 3;
+                        q.add(new Virus(nx, ny));
+                    }
+                }
+            }
+            if (empty != 0) time += 1;
+        }
+        if (empty == 0) return time + 1;
+        else return Integer.MAX_VALUE;
+    }
 
     private static boolean permutation(int[] p) {
         int N = virus.size();
@@ -90,12 +118,14 @@ public class BOJ17142 {
 
     private static class Virus {
         int x, y;
-        boolean status;
 
         public Virus(int x, int y) {
             this.x = x;
             this.y = y;
-            this.status = false;
         }
+    }
+
+    private static boolean inRange(int x, int y) {
+        return x >= 0 && x < N && y >= 0 && y < N;
     }
 }
