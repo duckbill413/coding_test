@@ -6,7 +6,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-// 17281 야구
+// 17281 야구 (메모리: 22048kb, 시간: 636ms)
 public class BOJ17281 {
     private static int N;
     private static int[][] A;
@@ -87,7 +87,6 @@ public class BOJ17281 {
 
     private static int one(int[] base) {
         int score = base[2];
-        base[2] = 0;
         base[2] = base[1];
         base[1] = base[0];
         base[0] = 1;
@@ -95,23 +94,23 @@ public class BOJ17281 {
     }
 
     private static int two(int[] base) {
-        int score = base[1] + base[2];
-        base[1] = base[2] = 0;
+        int score = base[2] + base[1];
         base[2] = base[0];
         base[1] = 1;
+        base[0] = 0;
         return score;
     }
 
     private static int three(int[] base) {
-        int score = base[0] + base[1] + base[2];
-        base[0] = base[1] = base[2] = 0;
+        int score = base[2] + base[1] + base[0];
         base[2] = 1;
+        base[1] = base[0] = 0;
         return score;
     }
 
     private static int homerun(int[] base) {
-        int score = Arrays.stream(base).sum();
-        Arrays.fill(base, 0);
+        int score = base[2] + base[1] + base[0];
+        base[2] = base[1] = base[0] = 0;
         return score + 1;
     }
 
