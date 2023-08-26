@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class BOJ1767 {
+public class SWEA1767 {
     private static final int[] dx = {-1, 1, 0, 0};
     private static final int[] dy = {0, 0, -1, 1};
     private static int N;
@@ -49,6 +49,7 @@ public class BOJ1767 {
     }
 
     private static void dfs(int depth, int connect, int total, boolean[][] visited) {
+        if (cores.size() - depth + connect < connected) return;
         if (depth == cores.size()) {
             if (connect >= connected) {
                 if (connect > connected) {
@@ -61,23 +62,25 @@ public class BOJ1767 {
             return;
         }
 
+
         Core now = cores.get(depth);
         if (now.status) { // 이미 벽면에 붙어 있는 경우
             dfs(depth + 1, connect + 1, total, visited);
             return;
         }
         // 벽면에 붙어있지 않은 경우
+        boolean find = false;
         for (int d = 0; d < 4; d++) {
             boolean[][] copiedVisit = getCopiedVisit(visited);
             int distance = getDistance(now.x, now.y, d, copiedVisit);
-
-            // 연결 설정 불가여도 그대로 진행
-            if (distance == -1) {
-                dfs(depth + 1, connect, total, copiedVisit);
-            } else {
+            // 전류 연결이 가능한 경우 탐색
+            if (distance != -1) {
                 dfs(depth + 1, connect + 1, total + distance, copiedVisit);
+                find = true;
             }
         }
+        // 현재 코어를 연결하지 않는 경우
+        dfs(depth + 1, connect, total, visited);
     }
 
     private static boolean[][] getCopiedVisit(boolean[][] visited) {
