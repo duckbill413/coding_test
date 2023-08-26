@@ -3,7 +3,6 @@ package swea;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -41,14 +40,13 @@ public class SWEA1767 {
 
             connected = 0;
             answer = Integer.MAX_VALUE;
-            boolean[][] visited = new boolean[N][N];
-            dfs(0, 0, 0, visited);
+            dfs(0, 0, 0);
             sb.append("#").append(test_case).append(" ").append(answer).append("\n");
         }
         System.out.println(sb);
     }
 
-    private static void dfs(int depth, int connect, int total, boolean[][] visited) {
+    private static void dfs(int depth, int connect, int total) {
         if (cores.size() - depth + connect < connected) return;
         if (depth == cores.size()) {
             if (connect >= connected) {
@@ -65,50 +63,51 @@ public class SWEA1767 {
 
         Core now = cores.get(depth);
         if (now.status) { // 이미 벽면에 붙어 있는 경우
-            dfs(depth + 1, connect + 1, total, visited);
+            dfs(depth + 1, connect + 1, total);
             return;
         }
         // 벽면에 붙어있지 않은 경우
-        boolean find = false;
         for (int d = 0; d < 4; d++) {
-            boolean[][] copiedVisit = getCopiedVisit(visited);
-            int distance = getDistance(now.x, now.y, d, copiedVisit);
             // 전류 연결이 가능한 경우 탐색
-            if (distance != -1) {
-                dfs(depth + 1, connect + 1, total + distance, copiedVisit);
-                find = true;
+            if (canConnect(now.x, now.y, d)) {
+                int distance = setLine(now.x, now.y, d);
+                dfs(depth + 1, connect + 1, total + distance);
+                removeLine(now.x, now.y, d);
             }
         }
         // 현재 코어를 연결하지 않는 경우
-        dfs(depth + 1, connect, total, visited);
+        dfs(depth + 1, connect, total);
     }
 
-    private static boolean[][] getCopiedVisit(boolean[][] visited) {
-        boolean[][] copiedVisit = new boolean[N][N];
-        for (int i = 0; i < N; i++) {
-            copiedVisit[i] = Arrays.copyOf(visited[i], N);
-        }
-        return copiedVisit;
-    }
-
-    private static int getDistance(int x, int y, int d, boolean[][] visited) {
-        int length = 0;
-
+    // 연결이 가능한지 확인
+    private static boolean canConnect(int x, int y, int d) {
         x += dx[d];
         y += dy[d];
-        while (inRange(x, y) && canMove(x, y, visited)) {
-            visited[x][y] = true;
+        while (inRange(x, y) && A[x][y] == 0) {
+            x += dx[d];
+            y += dy[d];
+        }
+        if (inRange(x, y)) return false;
+        else return true;
+    }
+
+    private static int setLine(int x, int y, int d) {
+        int length = 0;
+        while (inRange(x + dx[d], y + dy[d])) {
+            A[x + dx[d]][y + dy[d]] = 2;
             x += dx[d];
             y += dy[d];
             length += 1;
         }
-
-        if (!inRange(x, y)) return length;
-        return -1; // 중간에 다른 물체가 있어서 이동 불가
+        return length;
     }
 
-    private static boolean canMove(int x, int y, boolean[][] visited) {
-        return A[x][y] == 0 && !visited[x][y];
+    private static void removeLine(int x, int y, int d) {
+        while (inRange(x + dx[d], y + dy[d])) {
+            A[x + dx[d]][y + dy[d]] = 0;
+            x += dx[d];
+            y += dy[d];
+        }
     }
 
     private static boolean inRange(int x, int y) {
