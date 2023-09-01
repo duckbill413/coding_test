@@ -6,6 +6,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+// 1600 말이 되고 싶은 원숭이
 public class BOJ1600 {
     private static final int[] dx = {1, 0, -1, 0};
     private static final int[] dy = {0, 1, 0, -1};
@@ -37,7 +38,7 @@ public class BOJ1600 {
 
     private static int bfs() {
         Queue<Node> q = new ArrayDeque<>();
-        int[][][] visited = new int[H][W][32];
+        int[][][] visited = new int[H][W][31];
         q.add(new Node(0, 0, 0));
         visited[0][0][0] = 1;
 
@@ -48,25 +49,27 @@ public class BOJ1600 {
                 return visited[cur.x][cur.y][cur.k] - 1;
             }
 
-            for (int i = 0; i < 8; i++) {
+            // 말 이동
+            for (int i = 0; i < hx.length; i++) {
                 int nx = cur.x + hx[i];
                 int ny = cur.y + hy[i];
                 int nk = cur.k + 1;
 
-                if (!inRange(nx, ny)) {
+                if (inRange(nx, ny)) {
                     continue;
                 }
-                if (visited[nx][ny][nk] != 0 || A[nx][ny] == 1 || nk > K)
+                if (nk > K || visited[nx][ny][nk] != 0 || A[nx][ny] == 1)
                     continue;
 
                 visited[nx][ny][nk] = visited[cur.x][cur.y][cur.k] + 1;
                 q.add(new Node(nx, ny, nk));
             }
-            for (int i = 0; i < 4; i++) {
+            // 원숭이 이동
+            for (int i = 0; i < dx.length; i++) {
                 int nx = cur.x + dx[i];
                 int ny = cur.y + dy[i];
 
-                if (!inRange(nx, ny)) {
+                if (inRange(nx, ny)) {
                     continue;
                 }
                 if (visited[nx][ny][cur.k] != 0 || A[nx][ny] == 1) {
@@ -80,7 +83,7 @@ public class BOJ1600 {
     }
 
     private static boolean inRange(int x, int y) {
-        return x >= 0 && x < H && y >= 0 && y < W;
+        return x < 0 || x >= H || y < 0 || y >= W;
     }
 
     private static class Node {

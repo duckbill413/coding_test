@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 10971 외판원 순회
 public class BOJ10971 {
     private static int N;
     private static int[][] A;

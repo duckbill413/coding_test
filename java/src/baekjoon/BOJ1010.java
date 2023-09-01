@@ -4,28 +4,31 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 1010 다리 놓기
 public class BOJ1010 {
-
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int T = Integer.parseInt(st.nextToken());
 
+        int T = Integer.parseInt(st.nextToken());
+        int[][] dp = new int[31][31];
+
+        for (int i = 0; i < 31; i++) {
+            dp[i][i] = 1;
+            dp[i][1] = i;
+            dp[i][0] = 1;
+        }
+
+        for (int i = 2; i < 31; i++) {
+            for (int j = 1; j < i; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i - 1][j - 1];
+            }
+        }
         for (int test_case = 1; test_case <= T; test_case++) {
             st = new StringTokenizer(br.readLine());
-            int b = Integer.parseInt(st.nextToken());
             int a = Integer.parseInt(st.nextToken());
-
-            int[][] dp = new int[a + 1][b + 1];
-
-            for (int i = 0; i <= a; i++) {
-                for (int j = 0, end = Math.min(i, b); j <= end; j++) {
-                    if (j == 0 || i == j) dp[i][j] = 1;
-                    else dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
-                }
-            }
-
-            System.out.println(dp[a][b]);
+            int b = Integer.parseInt(st.nextToken());
+            System.out.println(dp[b][a]);
         }
     }
 }

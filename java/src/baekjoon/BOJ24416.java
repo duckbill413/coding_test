@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 24416 알고리즘 수업 - 피보나치 수 1
 public class BOJ24416 {
     private static int A, B;
     private static int[] dp;
@@ -15,7 +16,7 @@ public class BOJ24416 {
         A = B = 0;
         fib1(N);
 
-        dp = new int[N+1];
+        dp = new int[N + 1];
         fib2(N);
         System.out.println(A + " " + B);
     }

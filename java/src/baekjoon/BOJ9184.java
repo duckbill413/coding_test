@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 9184 신나는 함수 실행
 public class BOJ9184 {
     private static int[][][] dp;
 
