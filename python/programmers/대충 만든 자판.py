@@ -3,20 +3,20 @@ import collections
 
 
 def solution(keymap, targets):
-    answer = []
-    alpabet = collections.defaultdict(lambda: 200)
+    alphabet = collections.defaultdict(lambda: 200)
 
     for key in keymap:
         for i in range(len(key)):
-            alpabet[key[i]] = min(alpabet[key[i]], i + 1)
+            alphabet[key[i]] = min(alphabet[key[i]], i + 1)
 
+    answer = []
     for target in targets:
         count = 0
         for w in target:
-            if alpabet[w] == 200:
+            if alphabet[w] == 200:
                 count = -1
                 break
-            count += alpabet[w]
+            count += alphabet[w]
         answer.append(count)
 
     return answer
