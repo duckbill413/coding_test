@@ -1,3 +1,5 @@
+
+##2480
 a, b, c = map(int, input().split())
 
 answer = 0
