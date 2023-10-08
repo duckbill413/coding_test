@@ -1,5 +1,5 @@
 def dfs(index, depth, skill_tree):
-    global answer, Skill, s
+    global answer, Skill
     if depth == len(Skill):
         answer += 1
         return
@@ -7,7 +7,7 @@ def dfs(index, depth, skill_tree):
         answer += 1
         return
 
-    if skill_tree[index] not in s:
+    if skill_tree[index] not in Skill:
         dfs(index + 1, depth, skill_tree)
     else:
         if skill_tree[index] == Skill[depth]:
@@ -19,14 +19,8 @@ def dfs(index, depth, skill_tree):
 def solution(skill, skill_trees):
     global answer, s, Skill
     answer = 0
-    s = set(skill)
     Skill = skill
 
     for skill_tree in skill_trees:
         dfs(0, 0, skill_tree)
     return answer
-
-
-skill = "CBD"
-skill_trees = ["BACDE", "CBADF", "AECB", "BDA"]
-print(solution(skill, skill_trees))
