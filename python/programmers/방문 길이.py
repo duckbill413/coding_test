@@ -7,7 +7,7 @@ move = {
 
 
 def inRange(x, y):
-    return -5 <= x <= 5 and y >= -5 and y <= 5
+    return -5 <= x <= 5 and -5 <= y <= 5
 
 
 def solution(dirs):
