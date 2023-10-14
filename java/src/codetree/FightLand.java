@@ -43,20 +43,102 @@ public class FightLand {
 
         // game
         int time = 0;
-        while (time < K) {
+        while (time++ < K) {
+            game();
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Player player : players) {
+            sb.append(player.point).append(" ");
+        }
+        System.out.println(sb);
+    }
 
+    private static void game() {
+        for (int i = 0; i < M; i++) {
+            Player me = players[i];
+            // step 1 플레이어 이동
+            updateDirection(me);
+
+            int nx = me.x + dx[me.d];
+            int ny = me.y + dy[me.d];
+
+            me.x = nx;
+            me.y = ny;
+            // step 2-1 플레이어가 있는지 확인
+            Player other = findPlayerInSamePoint(me, nx, ny);
+            // 플레이가 없는 경우
+            if (other == null) {
+                if (!guns[nx][ny].isEmpty()) {
+                    if (me.gun > 0) {
+                        guns[nx][ny].add(me.gun);
+                    }
+                    me.gun = guns[nx][ny].poll();
+                }
+            } else {
+                Player[] p = Player.fight(me, other);
+                if (p[1].gun > 0) {
+                    guns[nx][ny].add(p[1].gun);
+                    p[1].gun = 0;
+                }
+                updateLoseDirection(p[1]);
+                p[1].x = p[1].x + dx[p[1].d];
+                p[1].y = p[1].y + dy[p[1].d];
+                if (!guns[p[1].x][p[1].y].isEmpty()) {
+                    p[1].gun = guns[p[1].x][p[1].y].poll();
+                }
+
+                if (!guns[p[0].x][p[0].y].isEmpty()) {
+                    if (p[0].gun > 0) {
+                        guns[p[0].x][p[0].y].add(p[0].gun);
+                    }
+                    p[0].gun = guns[p[0].x][p[0].y].poll();
+                }
+            }
         }
     }
 
+    private static Player findPlayerInSamePoint(Player p, int x, int y) {
+        for (int i = 0; i < M; i++) {
+            if (players[i] == p) continue;
+            if (players[i].isInSamePoint(x, y)) {
+                return players[i];
+            }
+        }
+        return null;
+    }
+
     private static class Player {
-        int x, y, d, power, point;
+        int x, y, d, power, gun, point;
 
         public Player(int x, int y, int d, int power) {
             this.x = x;
             this.y = y;
             this.d = d;
             this.power = power;
+            this.gun = 0;
             this.point = 0;
+        }
+
+        public boolean isInSamePoint(int x, int y) {
+            return this.x == x && this.y == y;
+        }
+
+        public static Player[] fight(Player a, Player b) {
+            int p1 = a.power + a.gun;
+            int p2 = b.power + b.gun;
+
+            if (p1 == p2) {
+                p1 = a.power;
+                p2 = b.power;
+            }
+
+            if (p1 > p2) {
+                a.point += (a.power + a.gun) - (b.power + b.gun);
+                return new Player[]{a, b};
+            } else {
+                b.point += (b.power + b.gun) - (a.power + a.gun);
+                return new Player[]{b, a};
+            }
         }
     }
 
@@ -65,45 +147,29 @@ public class FightLand {
         int ny = p.y + dy[p.d];
 
         if (!inRange(nx, ny)) {
-            p.d = (p.d + 2) % 2;
+            p.d = (p.d + 2) % 4;
         }
     }
 
     private static void updateLoseDirection(Player p) {
         for (int i = 0; i < 4; i++) {
+            int nx = p.x + dx[(p.d + i) % 4];
+            int ny = p.y + dy[(p.d + i) % 4];
 
-        }
-    }
+            if (!inRange(nx, ny)) {
+                continue;
+            }
 
-    private static Player playerIsExist(Player me) {
-        for (int i = 0; i < M; i++) {
-            if (players[i] == me) continue;
-            int nx = me.x + dx[(me.d + i) % 4];
-            int ny = me.y + dy[(me.d + i) % 4];
+            Player other = findPlayerInSamePoint(p, nx, ny);
 
-            if (inRange(nx, ny)) {
-                for (int j = 0; j < M; j++) {
-                    if (players[i] == me) continue;
-
-                }
+            if (other == null) {
+                p.d = (p.d + i) % 4;
+                break;
             }
         }
     }
 
     private static boolean inRange(int x, int y) {
         return x >= 0 && x < N && y >= 0 && y < N;
-    }
-
-    private static class Point {
-        int x, y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public boolean isSame(Point p) {
-            return this.x == p.x && this.y == p.y;
-        }
     }
 }
