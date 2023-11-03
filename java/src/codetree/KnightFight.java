@@ -1,14 +1,9 @@
-package codetree;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
-<<<<<<< HEAD
-=======
 import java.util.List;
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
 
-public class KnightFight {
+public class Main {
     private static final int[] dx = {-1, 0, 1, 0};
     private static final int[] dy = {0, 1, 0, -1};
     private static int[][] map;
@@ -30,10 +25,6 @@ public class KnightFight {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             int r = Integer.parseInt(st.nextToken()) - 1;
@@ -68,46 +59,25 @@ public class KnightFight {
         boolean flag = true;
         while (!q.isEmpty()) {
             Robot cur = q.poll();
-<<<<<<< HEAD
             if (moveRobot.contains(cur)) continue;
-=======
-            // 한번 밀린 로봇이 계속하여 밀리는 것을 방지
-            if (moveRobot.contains(cur)) continue;
-            // 이미 죽은 로봇은 배제
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
             if (!cur.status) continue;
 
             int nx = cur.x + dx[dir];
             int ny = cur.y + dy[dir];
 
-<<<<<<< HEAD
-=======
-            // 이동 가능 확인
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
             if (!cur.canMove(nx, ny, dir)) {
                 flag = false;
                 break;
             }
-<<<<<<< HEAD
 
             moveRobot.add(cur);
 
-=======
-            // 이동 가능한 경우 이동할 로봇 목록에 저장
-            moveRobot.add(cur);
-            // 이동할 위치에서 다른 로봇과 겹치는 경우 겹치는 로봇의 리스트 가져오기
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
             List<Robot> samePlaceRobot = cur.findSamePlaceRobot(nx, ny);
             q.addAll(samePlaceRobot);
         }
         if (flag) {
-<<<<<<< HEAD
             move(moveRobot, dir);
             for (int i = 1; i < moveRobot.size(); i++) {
-=======
-            move(moveRobot, dir); // 연쇄적으로 밀리는 모든 로봇 이동
-            for (int i = 1; i < moveRobot.size(); i++) { // 명령을 받은 로봇을 제외하고 데미지 처리
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
                 int damage = moveRobot.get(i).calcDamage();
                 moveRobot.get(i).damage(damage);
             }
@@ -115,18 +85,12 @@ public class KnightFight {
     }
 
     private static void move(List<Robot> moveRobots, int dir) {
-<<<<<<< HEAD
         for (int i = 0; i < moveRobots.size(); i++) {
             int nx = moveRobots.get(i).x + dx[dir];
             int ny = moveRobots.get(i).y + dy[dir];
 
             moveRobots.get(i).x = nx;
             moveRobots.get(i).y = ny;
-=======
-        for (Robot moveRobot : moveRobots) {
-            moveRobot.x += dx[dir];
-            moveRobot.y += dy[dir];
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
         }
     }
 
@@ -180,11 +144,6 @@ public class KnightFight {
 
         private void damage(int d) {
             this.damage += d;
-<<<<<<< HEAD
-=======
-
-            // 로봇의 내구도 보다 받은 데미지가 같거나 큰 경우 파괴 처리
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
             if (this.damage >= k) {
                 this.status = false;
             }
@@ -205,8 +164,4 @@ public class KnightFight {
             return true;
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 11313fa0d3688cabe2924e84eb3808c58f77c5fb
