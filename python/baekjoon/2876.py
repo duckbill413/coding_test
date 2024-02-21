@@ -15,7 +15,7 @@ for i in range(1, N):
         if scores[i][j] == scores[i - 1][j]:
             dp[i][j] = dp[i - 1][j] + 1
         if scores[i][j] == scores[i - 1][(j + 1) % 2]:
-            dp[i][j] = max(dp[i][j], dp[i - 1][(j + 1) % 2] + 1)
+            dp[i][j] = dp[i - 1][(j + 1) % 2] + 1
         max_length[scores[i][j]] = max(max_length[scores[i][j]], dp[i][j])
 
 find = max(max_length)
