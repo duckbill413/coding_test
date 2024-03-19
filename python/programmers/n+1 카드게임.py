@@ -1,62 +1,34 @@
-def find_pair(card):
-    global target
-    return target - card
+import collections
 
 
-def need_coin():
-    global target, my_cards
-
-    cost = 3
-    index = [0, 0]
-    for i in range(len(my_cards) // 2 + 1):
-        pair = find_pair(i)
-        if my_cards[i] == 0 or my_cards[pair] == 0:
-            continue
-
-        if my_cards[i] == 1 and my_cards[pair] == 1:
-            index[0] = i
-            index[1] = pair
-            cost = 0
-            break
-        elif my_cards[i] == 1 and my_cards[pair] == 2:
-            if cost > 1:
-                index[0] = i
-                index[1] = pair
-                cost = 1
-        elif my_cards[i] == 2 and my_cards[pair] == 2:
-            if cost > 2:
-                index[0] = i
-                index[1] = pair
-                cost = 2
-
-    my_cards[index[0]] = 0
-    my_cards[index[1]] = 0
-    return cost
+def check(deck1, deck2, target):
+    for card in deck1:
+        if target - card in deck2:
+            deck1.remove(card)
+            deck2.remove(target - card)
+            return True
+    return False
 
 
 def solution(coin, cards):
-    global target, my_cards
+    hand = cards[:len(cards) // 3]
+    deck = collections.deque(cards[len(cards) // 3:])
     target = len(cards) + 1
-    my_cards = [0] * (len(cards) + 1)
 
-    index = 0
-    for i in range(0, len(cards) // 3):
-        my_cards[cards[index]] = 1
-        index += 1
+    pending = []
+    turn = 1
+    while coin >= 0 and deck:
+        pending.append(deck.popleft())
+        pending.append(deck.popleft())
 
-    round = 1
-    while True:
-        if index >= len(cards):
-            break
-        my_cards[cards[index]] = 2
-        index += 1
-        my_cards[cards[index]] = 2
-        index += 1
-
-        result = need_coin()
-        if result == 3 or result > coin:
-            break
+        if check(hand, hand, target):
+            pass
+        elif coin >= 1 and check(hand, pending, target):
+            coin -= 1
+        elif coin >= 2 and check(pending, pending, target):
+            coin -= 2
         else:
-            coin -= result
-        round += 1
-    return round
+            break
+
+        turn += 1
+    return turn
