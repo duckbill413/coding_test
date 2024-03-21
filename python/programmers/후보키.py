@@ -14,6 +14,7 @@ def solution(relation):
             if len(fields) == len(relation):
                 keys.append(case)
 
+    # 유일성을 만족하는 키 중에서 최소성을 만족하는 키 추출
     used_key = []
     for k in keys:
         count = 0
