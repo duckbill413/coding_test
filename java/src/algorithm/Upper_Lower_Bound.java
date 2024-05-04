@@ -10,9 +10,9 @@ public class Upper_Lower_Bound {
         List<Integer> data = new ArrayList<>(Arrays.asList(13, 13, 15, 17, 17, 17, 17, 20, 20));
         int lower = lowerBound(data, 17);
         int upper = upperBound(data, 17);
-        System.out.println(lower); // 찾는 원소가 있는 첫번째 index
-        System.out.println(upper); // 찾는 원소가 있는 index + 1
-        System.out.println(upper - lower);
+        System.out.println("lower_bound: " + lower); // 찾는 원소가 있는 첫번째 index
+        System.out.println("upper_bound: " + upper); // 찾는 원소가 있는 index + 1
+        System.out.println("item count: " + (upper - lower));
 
         int index = Collections.binarySearch(data, 17);
         System.out.println("binarySearch: " + index);
