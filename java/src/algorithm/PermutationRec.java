@@ -2,6 +2,7 @@ package algorithm;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class PermutationRec {
@@ -9,6 +10,7 @@ public class PermutationRec {
     private static int M;
     private static int[] A;
     private static boolean[] visited;
+    private static int[] result;
     private static int count;
 
     public static void main(String[] args) throws Exception {
@@ -22,27 +24,24 @@ public class PermutationRec {
         }
 
         visited = new boolean[N];
+        result = new int[M];
         count = 0;
-        combination(0);
+        permutation(0);
         System.out.println(count);
     }
 
-    private static void combination(int depth) {
+    private static void permutation(int depth) {
         if (depth == M) {
             count++;
-            for (int i = 0; i < N; i++) {
-                if (visited[i]) {
-                    System.out.print(A[i] + " ");
-                }
-            }
-            System.out.println();
+            System.out.println(Arrays.toString(result));
             return;
         }
 
         for (int i = 0; i < N; i++) {
             if (visited[i]) continue;
             visited[i] = true;
-            combination(depth + 1);
+            result[depth] = A[i];
+            permutation(depth + 1);
             visited[i] = false;
         }
     }
