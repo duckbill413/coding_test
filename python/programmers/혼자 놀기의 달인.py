@@ -4,11 +4,11 @@ def game(target, group, visited):
     # 기선택
     if visited[target - 1]:
         return
+
     # 미선택
-    else:
-        visited[target - 1] = True
-        group.append(target)
-        game(C[target - 1], group, visited)
+    visited[target - 1] = True
+    group.append(target)
+    game(C[target - 1], group, visited)
 
 
 def solution(cards):
@@ -18,7 +18,7 @@ def solution(cards):
 
     answer = 0
 
-    for i in range(N):
+    for i in range(N // 2 + 1):
         visited = [False] * N
         group1 = []
         game(C[i], group1, visited)
